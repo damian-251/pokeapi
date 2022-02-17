@@ -44,9 +44,9 @@ fetch(swapi)
     arrayTd[2].innerText = respuestaJson.name;
     arrayTd[2].setAttribute('class', 'text-capitalize');
     //Altura del Pokémon
-    arrayTd[3].innerText = respuestaJson.height;
+    arrayTd[3].innerText = respuestaJson.height/10 + "m";
     //Peso del Pokémon
-    arrayTd[4].innerText = respuestaJson.weight;
+    arrayTd[4].innerText = respuestaJson.weight/10 + "kg";
     console.log(arrayTd);
     return respuestaJson.species.url;
 })

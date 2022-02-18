@@ -6,10 +6,29 @@
 
 body {
     font-family: pokemon,'Times New Roman', Times, serif;
+    width: 75%;
 }
 
 h1 {
-    margin: 1.5rem;
+    margin: 1.5rem auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: .7rem;
+    width: fit-content;
+    
+}
+
+.list-group-item {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.list-group-item a {
+    background-color: white;
+}
+
+body {
+
+    background-image: url(./Goldenrod_City_GS.png);
+    background-size:contain;
 }
 
 body.details {
@@ -20,8 +39,16 @@ body.details img {
     width: 100%;
 }
 
+div.container-fluid {
+    background-color: rgba(255, 255, 255, 0.911);
+    padding: 1.5rem;
+}
+
 
 @media (max-width: 1000px) { 
+    body {
+        width: 95%;
+    }
     body.details {
         width: 100%;
     }

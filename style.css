@@ -11,3 +11,18 @@ body {
 h1 {
     margin: 1.5rem;
 }
+
+body.details {
+    width: 60%;
+}
+
+body.details img {
+    width: 100%;
+}
+
+
+@media (max-width: 1000px) { 
+    body.details {
+        width: 100%;
+    }
+}

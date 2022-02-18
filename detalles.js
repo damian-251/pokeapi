@@ -12,19 +12,20 @@ let url = window.location.href;
 let variable = "url-detalles="; 
 let referencia = url.search(variable);
 let swapi = url.slice(referencia + variable.length);
-let tbody = document.getElementsByTagName("tbody")[0];
-let row = document.createElement("tr");
+//let tbody = document.getElementsByTagName("tbody")[0];
+//let row = document.createElement("tr");
 
 
 let loading = loadingAnimation();
-tbody.appendChild(loading);
+let divContainer = document.getElementsByClassName("container-fluid")[0];
+divContainer.appendChild(loading);
 
 //Creamos un array con las columnas de cada fila de la tabla
-let arrayTd = [];
+// let arrayTd = [];
 
-for (let index = 0; index < 6; index++) {
-    arrayTd[index] = document.createElement("td");
-}
+// for (let index = 0; index < 6; index++) {
+//     arrayTd[index] = document.createElement("td");
+// }
 
 
 fetch(swapi)
@@ -34,20 +35,33 @@ fetch(swapi)
     header1.innerText = respuestaJson.name + " - Detalles";
     document.title = "Detalles de " + respuestaJson.name;
     //Número del Pokémon
-    arrayTd[0].innerText = respuestaJson.id;
+    //arrayTd[0].innerText = respuestaJson.id;
     //Imagen del Pokémon
     let imagen = document.createElement("img");
     imagen.setAttribute('src', respuestaJson.sprites.other["official-artwork"]["front_default"]);
     imagen.setAttribute('alt', respuestaJson.name + " artwork oficial");
-    arrayTd[1].appendChild(imagen);
+
+    let divImg = document.getElementById("pk-image");
+    divImg.appendChild(imagen);
+
+    let divDatos = document.getElementById("pk-data");
+
+    //arrayTd[1].appendChild(imagen);
     //Nombre del Pokémon
-    arrayTd[2].innerText = respuestaJson.name;
-    arrayTd[2].setAttribute('class', 'text-capitalize');
+   // arrayTd[2].innerText = respuestaJson.name;
+    divDatos.children[0].innerText = "Número: " + respuestaJson.id;
+    divDatos.children[1].setAttribute('class', 'text-capitalize');
+    divDatos.children[1].innerText = "Nombre: " + respuestaJson.name;
+
+    //arrayTd[2].setAttribute('class', 'text-capitalize');
     //Altura del Pokémon
-    arrayTd[3].innerText = respuestaJson.height/10 + "m";
+    //arrayTd[3].innerText = respuestaJson.height/10 + "m";
+    divDatos.children[2].innerText = "Altura: " + respuestaJson.height/10 + "m";
+    divDatos.children[3].innerText = "Peso: " + respuestaJson.weight/10 + "kg";
+
     //Peso del Pokémon
-    arrayTd[4].innerText = respuestaJson.weight/10 + "kg";
-    console.log(arrayTd);
+    //arrayTd[4].innerText = respuestaJson.weight/10 + "kg";
+    //console.log(arrayTd);
     return respuestaJson.species.url;
 })
 .then((urlDetails=>fetch(urlDetails)))
@@ -57,17 +71,19 @@ fetch(swapi)
     for (let dato of respuestaJsonDetails.flavor_text_entries) {
         if(dato.language.name=="es" && insertado == false) {
             //Introducimos la primera descripción del Pokémon que está en castellano
-            arrayTd[5].innerText = dato.flavor_text;
+            //arrayTd[5].innerText = dato.flavor_text;
+            let divDesc = document.getElementById("pk-desc");
+            divDesc.innerText = dato.flavor_text;
             insertado = true;
         }
     }
 })
 .then(()=> {
     //Una vez hemos conseguido todos los datos lo mostramos en le documento
-    for (let elementoTd of arrayTd) {
-        row.appendChild(elementoTd);
-    }
+    //for (let elementoTd of arrayTd) {
+      //  row.appendChild(elementoTd);
+    //}
     //Antes de adjuntar la fila quitamos la animación de cargando
     loading.style.display = "none";
-    tbody.appendChild(row);
+    //tbody.appendChild(row);
 })

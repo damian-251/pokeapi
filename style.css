@@ -28,7 +28,7 @@ h1 {
 body {
 
     background-image: url(./Goldenrod_City_GS.png);
-    background-size:contain;
+    background-size:auto;
 }
 
 body.details {

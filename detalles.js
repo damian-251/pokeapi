@@ -31,6 +31,16 @@ fetch(swapi)
     divDatos.children[2].innerText = "Altura: " + respuestaJson.height/10 + "m";
     divDatos.children[3].innerText = "Peso: " + respuestaJson.weight/10 + "kg";
 
+    fetch(respuestaJson.abilities[0].ability.url) //Nos metemos en la url de la primera habilidad
+    .then(response=>response.json())
+    .then(jsonHabilidad=>{
+        for (let habilidad of jsonHabilidad.names) {
+            if(habilidad.language.name == "es") {
+                divDatos.children[4].innerText = "Habilidad: " + habilidad.name;
+            }
+            //console.log(habilidad.language.name);
+        }
+    })
     return respuestaJson.species.url;
 })
 .then((urlDetails=>fetch(urlDetails)))
@@ -44,8 +54,6 @@ fetch(swapi)
             insertado = true;
         }
     }
-})
-.then(()=> {
     //Una vez se ha cargado todo ya quitamos la animación de loading
     loading.style.display = "none";
 })

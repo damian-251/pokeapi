@@ -44,6 +44,9 @@ div.container-fluid {
     padding: 1.5rem;
 }
 
+#pk-data{
+    line-height: 1.5rem;
+}
 
 @media (max-width: 1000px) { 
     body {

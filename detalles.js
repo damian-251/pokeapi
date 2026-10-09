@@ -6,6 +6,25 @@ let referencia = url.search(variable);
 let swapi = url.slice(referencia + variable.length);
 
 
+function buildValidatedUrl(baseUrl) {
+    try {
+        if (baseUrl.includes('/../') || /\/%2e%2e\//i.test(baseUrl)) {
+            throw new Error('Invalid path');
+        }
+        const url = new URL(baseUrl);
+        const allowedDomains = ['example.com']; // add your allowed domains here
+        if (!allowedDomains.includes(url.hostname)) {
+            throw new Error('Invalid host');
+        }
+        if (!['http:', 'https:'].includes(url.protocol)) {
+            throw new Error('Invalid protocol');
+        }
+        return url.href;
+    } catch {
+        throw new Error('Invalid URL');
+    }
+}
+
 let loading = loadingAnimation();
 let divContainer = document.getElementsByClassName("container-fluid")[0];
 divContainer.appendChild(loading);
@@ -31,7 +50,7 @@ fetch(swapi)
     divDatos.children[2].innerText = "Altura: " + respuestaJson.height/10 + "m";
     divDatos.children[3].innerText = "Peso: " + respuestaJson.weight/10 + "kg";
 
-    fetch(respuestaJson.abilities[0].ability.url) //Nos metemos en la url de la primera habilidad
+    fetch(buildValidatedUrl(respuestaJson.abilities[0].ability.url)) //Nos metemos en la url de la primera habilidad
     .then(response=>response.json())
     .then(jsonHabilidad=>{
         for (let habilidad of jsonHabilidad.names) {
@@ -43,7 +62,7 @@ fetch(swapi)
     })
     return respuestaJson.species.url;
 })
-.then((urlDetails=>fetch(urlDetails)))
+.then((urlDetails=>fetch(buildValidatedUrl(urlDetails))))
 .then(respuesta=>respuesta.json())
 .then(respuestaJsonDetails=>{
     let insertado = false;

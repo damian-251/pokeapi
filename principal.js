@@ -1,5 +1,25 @@
 'use strict'
 
+function buildValidatedUrl(baseUrl) {
+    try {
+        if (baseUrl.includes('/../') || /\/%2e%2e\//i.test(baseUrl)) {
+            throw new Error('Invalid path');
+        }
+        const url = new URL(baseUrl);
+        const allowedDomains = ['pokeapi.co'];
+        if (!allowedDomains.includes(url.hostname)) {
+            throw new Error('Invalid host');
+        }
+        if (url.protocol !== 'https:') {
+            throw new Error('Invalid protocol');
+        }
+        return url.href;
+    } catch {
+        throw new Error('Invalid URL');
+    }
+}
+
+
 function generarCategorias() {
     fetch('https://pokeapi.co/api/v2/type/')
     .then(respuesta=>respuesta.json())
@@ -10,7 +30,7 @@ function generarCategorias() {
         }
         return arrayTipos;
     })
-    .then(array=>Promise.all(array.map(urlCategoria=>fetch(urlCategoria))))
+    .then(array=>Promise.all(array.map(urlCategoria=>fetch(buildValidatedUrl(urlCategoria)))))
     .then(respuesta=>Promise.all(respuesta.map(dato=>dato.json())))
     .then(arrayJson=>{
         for (let elemento of arrayJson) {

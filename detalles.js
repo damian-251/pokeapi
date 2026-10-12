@@ -12,11 +12,11 @@ function buildValidatedUrl(baseUrl) {
             throw new Error('Invalid path');
         }
         const url = new URL(baseUrl);
-        const allowedDomains = ['example.com']; // add your allowed domains here
+        const allowedDomains = ['pokeapi.co'];
         if (!allowedDomains.includes(url.hostname)) {
             throw new Error('Invalid host');
         }
-        if (!['http:', 'https:'].includes(url.protocol)) {
+        if (url.protocol !== 'https:') {
             throw new Error('Invalid protocol');
         }
         return url.href;
